@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Iterator;
 import java.util.Map;
 
 @Controller
@@ -19,6 +20,8 @@ public class HelloController {
 
     @Autowired
     private MessageRepository messageRepository;
+    @Autowired
+    private TopicRepository topicRepository;
 
     @GetMapping("/greeting")
     public String greeting(Map<String, Object> map) {
@@ -32,8 +35,11 @@ public class HelloController {
 
     @GetMapping("/main")
     public String addTopic(Map<String, Object> map) {
-        Iterable<Message> messages = messageRepository.findAll();
-        map.put("messages", messages);
+        //Iterable<Message> messages = messageRepository.findAll();
+        //map.put("messages", messages);
+
+        Iterable<Topic> topics = topicRepository.findAll();
+        map.put("topics", topics);
         return "main";
     }
 
@@ -44,13 +50,18 @@ public class HelloController {
             Map<String, Object> map
     ){
 
-        Message msg = new Message();
+        Topic topic = new Topic();
+        topic.setThemeName(text);
+        topicRepository.save(topic);
+        Iterable<Topic> topics = topicRepository.findAll();
+        map.put("topics", topics);
+        return "main";
+        /*Message msg = new Message();
         msg.setAuthor(user);
         msg.setTextMessage(text);
-        messageRepository.save(msg);
+        messageRepository.save(msg);*/
 
-        Iterable<Message> messages = messageRepository.findAll();
-        map.put("messages", messages);
-        return "main";
+        /*Iterable<Message> messages = messageRepository.findAll();
+        map.put("messages", messages);*/
     }
 }

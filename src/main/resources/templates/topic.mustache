@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    default
+</head>
+<body>
+<a href="/main">k viboru topikov</a>
+<div>
+    <form method="post">
+        <input type="text" name="text" placeholder="enter message"/>
+        <button type = "submit">Enter</button>
+        <input type=hidden name = "_csrf" value="{{_csrf.token}}">
+    </form>
+</div>
+<div>spisok soobsheniy</div>
+{{#messages}}
+    <div>
+        <b>{{id}}</b>
+        <span>{{textMessage}}</span>
+    </div>
+{{/messages}}
+</body>
+</html>

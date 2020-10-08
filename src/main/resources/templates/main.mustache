@@ -9,18 +9,18 @@
 </div>
 <div>
     <form method="post">
-        <input type="text" name="text" placeholder="enter message"/>
+        <input type="text" name="text" placeholder="enter topic name"/>
         <button type = "submit">Enter</button>
         <input type=hidden name = "_csrf" value="{{_csrf.token}}">
     </form>
 </div>
-<div>Список сообщений</div>
-    {{#messages}}
+<div>Список тем</div>
+    {{#topics}}
         <div>
             <b>{{id}}</b>
-            <span>{{textMessage}}</span>
-            <span>{{author}}</span>
+            <a href="topic.mustache?filter="{{id}}>link</a>
+            <span>{{themeName}}</span>
         </div>
-    {{/messages}}
+    {{/topics}}
 </body>
 </html>

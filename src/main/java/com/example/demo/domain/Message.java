@@ -3,6 +3,7 @@ package com.example.demo.domain;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "message")
 public class Message {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -12,7 +13,10 @@ public class Message {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
-    //private Topic topic;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "topic_id")
+    private Topic topic;
 
     public Message(){
     }
@@ -38,11 +42,11 @@ public class Message {
     }
 
 
-    /*public Topic getTopic() {
+    public Topic getTopic() {
         return topic;
     }
 
     public void setTopic(Topic topic) {
         this.topic = topic;
-    }*/
+    }
 }

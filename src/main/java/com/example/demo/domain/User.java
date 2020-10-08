@@ -1,6 +1,5 @@
 package com.example.demo.domain;
 
-import jdk.jfr.DataAmount;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
