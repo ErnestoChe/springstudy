@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,48 +16,41 @@ import java.util.Map;
 @Controller
 public class TopicController {
 
-    @Autowired
-    private MessageRepository messageRepository;
-    @Autowired
-    private TopicRepository topicRepository;
+    private final MessageRepository messageRepository;
+    private final TopicRepository topicRepository;
 
-    @GetMapping("/topic/{id}")
+    @Autowired
+    public TopicController(MessageRepository messageRepository, TopicRepository topicRepository){
+        this.messageRepository = messageRepository;
+        this.topicRepository = topicRepository;
+    }
+
+    @GetMapping("/topic")
     public String addTopic(
             @AuthenticationPrincipal User user,
-            @RequestParam String filter,
-            Map<String, Object> map,
-            @PathVariable String id
+            @RequestParam (required = false)String filter,
+            Map<String, Object> map
     ) {
         Iterable<Message> messages = messageRepository.findAll();
-        if (filter!= null && !filter.isEmpty()) {
-            messages = messageRepository.findByTopic(filter);
-        } else {
-            messages = messageRepository.findAll();
-        }
+        //messages = messageRepository.findByTopic(filter);
         map.put("messages", messages);
         return "topic";
     }
 
-    @PostMapping("/topic/{id}")
+    @PostMapping("/topic")
     public String readFromTopic(
             @AuthenticationPrincipal User user,
-            @RequestParam String filter,
+            @RequestParam (required = false)String filter,
             @RequestParam String text,
-            Map<String, Object> map,
-            @PathVariable String id
+            Map<String, Object> map
     ){
-        Iterable<Message> messages;
-        if (filter!= null && !filter.isEmpty()) {
-            messages = messageRepository.findByTopic(filter);
-        } else {
-            messages = messageRepository.findAll();
-        }
         Message msg = new Message();
         msg.setTextMessage(text);
         msg.setAuthor(user);
         msg.setTopic(topicRepository.findByThemeName(filter));
         messageRepository.save(msg);
+        Iterable<Message> messages = messageRepository.findAll();
         map.put("messages", messages);
-        return "main";
+        return "topic";
     }
 }

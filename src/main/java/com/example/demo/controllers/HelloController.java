@@ -18,10 +18,14 @@ import java.util.Map;
 @Controller
 public class HelloController {
 
+    private final MessageRepository messageRepository;
+    private final TopicRepository topicRepository;
+
     @Autowired
-    private MessageRepository messageRepository;
-    @Autowired
-    private TopicRepository topicRepository;
+    public HelloController(TopicRepository topicRepository, MessageRepository messageRepository){
+        this.topicRepository = topicRepository;
+        this.messageRepository = messageRepository;
+    }
 
     @GetMapping("/greeting")
     public String greeting(Map<String, Object> map) {
